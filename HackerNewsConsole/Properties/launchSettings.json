@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "HackerNewsConsole": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
