@@ -1,13 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HackerNewsConsole.Business;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using HackerNewsConsole.DataServices;
-using Moq;
-using System.Threading.Tasks;
+﻿using HackerNewsConsole.DataServices;
 using HackerNewsConsole.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HackerNewsConsole.Business.Tests
 {
@@ -36,14 +33,14 @@ namespace HackerNewsConsole.Business.Tests
             var item1 = 1;
             var item2 = 2;
             var item3 = 3;
-            var HNItem1 = new HNItem { Id = 1, Title = "Item 1", Type = HNItemTypes.Story };
-            var HNItem2 = new HNItem { Id = 2, Title = "Item 2", Type = HNItemTypes.Story };
-            var HNItem3 = new HNItem { Id = 3, Title = "Item 3", Type = HNItemTypes.Story };
+            var HNItem1 = GetValidStory(1, "Item 1");
+            var HNItem2 = GetValidStory(2, "Item 2");
+            var HNItem3 = GetValidStory(3, "Item 3");
 
             ItemDataServiceMock.Setup(s => s.GetItem(item1)).Returns(Task.FromResult(HNItem1));
             ItemDataServiceMock.Setup(s => s.GetItem(item2)).Returns(Task.FromResult(HNItem2));
             ItemDataServiceMock.Setup(s => s.GetItem(item3)).Returns(Task.FromResult(HNItem3));
-            TopStoriesDataServiceMock.Setup(s => s.GetTopStories()).Returns(Task.FromResult(new List<int>() { item1, item2, item3}.AsEnumerable()));
+            TopStoriesDataServiceMock.Setup(s => s.GetTopStories()).Returns(Task.FromResult(new List<int>() { item1, item2, item3 }.AsEnumerable()));
 
             var result = HackerNewsTopPostsServiceUT.GetTopItems(3);
 
@@ -58,8 +55,8 @@ namespace HackerNewsConsole.Business.Tests
         {
             var item1 = 1;
             var item2 = 2;
-            var HNItem1 = new HNItem { Id = 1, Title = "Item 1", Type = HNItemTypes.Story };
-            var HNItem2 = new HNItem { Id = 2, Title = "Item 2", Type = HNItemTypes.Story };
+            var HNItem1 = GetValidStory(1, "Item 1");
+            var HNItem2 = GetValidStory(2, "Item 2");
 
             ItemDataServiceMock.Setup(s => s.GetItem(item1)).Returns(Task.FromResult(HNItem1));
             ItemDataServiceMock.Setup(s => s.GetItem(item2)).Returns(Task.FromResult(HNItem2));
@@ -68,7 +65,7 @@ namespace HackerNewsConsole.Business.Tests
             var result = HackerNewsTopPostsServiceUT.GetTopItems(2);
 
             Assert.AreEqual(2, result.Count());
-            Assert.AreEqual(1, result.Count(s=> s.Title == HNItem1.Title));
+            Assert.AreEqual(1, result.Count(s => s.Title == HNItem1.Title));
             Assert.AreEqual(1, result.Count(s => s.Title == HNItem2.Title));
         }
 
@@ -80,5 +77,16 @@ namespace HackerNewsConsole.Business.Tests
 
             HackerNewsTopPostsServiceUT = new HackerNewsTopPostsService(TopStoriesDataServiceMock.Object, ItemDataServiceMock.Object);
         }
+
+        private HNItem GetValidStory(int id, string title) =>
+            new HNItem
+            {
+                Id = id,
+                Title = title,
+                Kids = new List<int>() { 1, 2 },
+                Score = 1,
+                Url = "https://news.ycombinator.com/",
+                Type = HNItemTypes.Story
+            };
     }
 }

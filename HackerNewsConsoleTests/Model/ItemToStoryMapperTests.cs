@@ -1,9 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HackerNewsConsole.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using HackerNewsConsole.Exceptions;
+﻿using HackerNewsConsole.Exceptions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HackerNewsConsole.Model.Tests
 {
@@ -23,15 +19,15 @@ namespace HackerNewsConsole.Model.Tests
         }
 
         [TestMethod()]
-        
+
         public void GivenThatTheItemIsStory_WhenIsMappedToStories_ThenANewStoryObjectIsCreated()
         {
             var NHItemUT = new HNItem()
             {
                 Type = HNItemTypes.Story,
-                Title ="Some title",
+                Title = "Some title",
                 By = "author",
-                Score = 33                
+                Score = 33
             };
             var rank = 6;
 
