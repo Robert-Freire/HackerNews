@@ -13,6 +13,7 @@
 // ***********************************************************************
 using HackerNewsConsole.Business;
 using HackerNewsConsole.DataServices;
+using HackerNewsConsole.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -36,13 +37,55 @@ namespace HackerNewsConsole
         /// Defines the entry point of the application.
         /// </summary>
         /// <param name="args">The arguments.</param>
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            SetupDI();
-            var hackerNewsTopPostsService = serviceProvider.GetService<IHackerNewsTopPostsService>();
+            var callError = CheckParameters(args, out int numItems);
+            if (callError != "")
+            {
+                Console.WriteLine(callError);
+                return 1;
+            }
+            try
+            {
+                SetupDI();
+                var hackerNewsTopPostsService = serviceProvider.GetService<IHackerNewsTopPostsService>();
+                foreach (var result in hackerNewsTopPostsService.GetTopItems(numItems))
+                {
+                    Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+                }
+            } 
+            catch (InvalidHNItemToStoryException e)
+            {
+                Console.WriteLine($"HackerNews: Upps, Hachernews 1.0 could not cope with the item {e.HNItem.Id} you will have to wait to v 2.0");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("HackerNews: Upps! Houston, we have a problem");
+            }
+ 
+            return 0;
+        }
 
-            var result = hackerNewsTopPostsService.GetTopItems(2);
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+        /// <summary>Checks the parameters.</summary>
+        /// <param name="args">The arguments.</param>
+        /// <param name="numItems">Output parameter. The number items.</param>
+        /// <returns></returns>
+        private static String CheckParameters(string[] args, out int numItems)
+        {
+            numItems = 0;
+            if ((args.Length != 2) || (args[1].ToLower() == "posts"))
+            {
+                return "hackernews: Bad call mate. Try again with format 'hackernews --posts n' ";
+            }
+            if (!int.TryParse(args[1], out numItems))
+            {
+                return "hackernews: Bad call mate. Try again replacing n with the number of posts that you want 'hackernews --posts n' ";
+            }
+            if (numItems > 100)
+            {
+                return "hackernews: Don't be greedy mate. With a hundred news from HackerNews will be enough ";
+            }
+            return "";
         }
 
         /// <summary>

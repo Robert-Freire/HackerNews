@@ -28,7 +28,7 @@ namespace HackerNewsConsole.Model.Tests
         {
             var NHItemUT = new HNItem()
             {
-                Type = "story",
+                Type = HNItemTypes.Story,
                 Title ="Some title",
                 By = "author",
                 Score = 33                

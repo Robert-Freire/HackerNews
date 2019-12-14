@@ -12,7 +12,7 @@ namespace HackerNewsConsole.Model
         {
             if (HNItem == null)
                 return null;
-            if (HNItem.Type != "story")
+            if (HNItem.Type != HNItemTypes.Story)
                 throw new InvalidHNItemToStoryException(HNItem, $"Invalid type {HNItem.Type} for item {HNItem.Id}");
             else
                 return new Story()

@@ -18,11 +18,18 @@ namespace HackerNewsConsole.Business
 
         public IEnumerable<Story> GetTopItems(int limitTo)
         {
-            var topItems = topStoriesDataService.GetTopStories().Result;
+            var topItems = topStoriesDataService.GetTopStories().Result.ToList();
             var rank = 1;
-            foreach (var item in topItems.Take(limitTo))
+            var numItem = 0;
+            
+            while ((numItem < topItems.Count()) && (rank <= limitTo))
             {
-                yield return itemDataService.GetItem(item).Result.Map(rank++);
+                var item = itemDataService.GetItem(topItems[numItem]).Result;
+                if (item.IsValidStory())
+                {
+                    yield return item.Map(rank++);
+                }
+                numItem++;
             }
         }
     }

@@ -36,9 +36,9 @@ namespace HackerNewsConsole.Business.Tests
             var item1 = 1;
             var item2 = 2;
             var item3 = 3;
-            var HNItem1 = new HNItem { Id = 1, Title = "Item 1", Type = "story" };
-            var HNItem2 = new HNItem { Id = 2, Title = "Item 2", Type = "story" };
-            var HNItem3 = new HNItem { Id = 3, Title = "Item 3", Type = "story" };
+            var HNItem1 = new HNItem { Id = 1, Title = "Item 1", Type = HNItemTypes.Story };
+            var HNItem2 = new HNItem { Id = 2, Title = "Item 2", Type = HNItemTypes.Story };
+            var HNItem3 = new HNItem { Id = 3, Title = "Item 3", Type = HNItemTypes.Story };
 
             ItemDataServiceMock.Setup(s => s.GetItem(item1)).Returns(Task.FromResult(HNItem1));
             ItemDataServiceMock.Setup(s => s.GetItem(item2)).Returns(Task.FromResult(HNItem2));
@@ -58,8 +58,8 @@ namespace HackerNewsConsole.Business.Tests
         {
             var item1 = 1;
             var item2 = 2;
-            var HNItem1 = new HNItem { Id = 1, Title = "Item 1", Type = "story" };
-            var HNItem2 = new HNItem { Id = 2, Title = "Item 2", Type = "story" };
+            var HNItem1 = new HNItem { Id = 1, Title = "Item 1", Type = HNItemTypes.Story };
+            var HNItem2 = new HNItem { Id = 2, Title = "Item 2", Type = HNItemTypes.Story };
 
             ItemDataServiceMock.Setup(s => s.GetItem(item1)).Returns(Task.FromResult(HNItem1));
             ItemDataServiceMock.Setup(s => s.GetItem(item2)).Returns(Task.FromResult(HNItem2));
