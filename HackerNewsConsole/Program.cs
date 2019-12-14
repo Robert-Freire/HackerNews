@@ -81,6 +81,14 @@ namespace HackerNewsConsole
             {
                 return "hackernews: Bad call mate. Try again replacing n with the number of posts that you want 'hackernews --posts n' ";
             }
+            if (numItems < 0)
+            {
+                return $"hackernews: Hey! Don't play dumb with me. What means that you want {numItems} stories?";
+            }
+            if (numItems == 0)
+            {
+                return $"hackernews: Great!!! Free time. Thanks mate.";
+            }
             if (numItems > 100)
             {
                 return "hackernews: Don't be greedy mate. With a hundred news from HackerNews will be enough ";
