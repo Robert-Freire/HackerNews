@@ -59,6 +59,6 @@ Also for testing
 
 ## Notes
 
-In the project, I tried to use different techniques, I like all of them although some of them could be arguable. But one thing I want to mention is the use of generator/iterator in the project, because this technique, I am not sure if it intentionally, fits very well with the API used and the exercise requested. 
+In the project, I tried to use different patterns, principles and concepts, I like all of them although some of them could be arguable. But one thing I want to mention is the use of generator/iterator in the project, because this technique, I am not sure if it intentionally, fits very well with the API used and the exercise requested. 
 
 Actually, it fits so well that I see it as a good way to explain the use of generators/iterators to people who are not used to them because to see how the responses to each call are printed when the answer arrives and before doing the following call is a very visual way to explain it 
